@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Enemy Scout · Edge of the Mists</title>
+<style>
+:root{color-scheme:dark;--bg:#0c1219;--panel:#131e29;--line:#273846;--text:#e8edf2;--muted:#96aabb;--accent:#76debf;--hot:#ffa184}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,sans-serif}header,main{max-width:1440px;margin:auto;padding:30px 34px}header{padding-bottom:15px}.eyebrow{font-size:11px;letter-spacing:2px;color:var(--accent);text-transform:uppercase}h1{font-size:36px;font-weight:650;letter-spacing:-1px;margin:8px 0}h2{font-size:19px;margin:0 0 5px}h3{margin:0 0 8px;font-size:15px}p{margin:5px 0 15px;color:var(--muted)}.tag{border:1px solid var(--line);padding:5px 10px;border-radius:20px;font-size:12px;color:var(--accent)}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px}.filters{display:flex;gap:16px;align-items:end;flex-wrap:wrap;padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px}label{display:grid;gap:6px;color:var(--muted);font-size:12px}select,input,button{background:#0c151e;color:var(--text);border:1px solid #39505f;border-radius:6px;padding:9px 12px;font:inherit}input{width:100px}button{cursor:pointer}button:hover{border-color:var(--accent)}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}.card,.panel{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:20px}.value{font-size:30px;letter-spacing:-1px;margin:6px 0;color:var(--text)}.small{font-size:12px;color:var(--muted)}.grid{display:grid;grid-template-columns:1.05fr 1fr;gap:18px;margin:18px 0}.panel{min-width:0}.table-wrap{overflow:auto;max-height:470px}table{width:100%;border-collapse:collapse;white-space:nowrap;font-variant-numeric:tabular-nums}th{text-align:left;color:var(--muted);font-size:11px;letter-spacing:.5px;text-transform:uppercase;background:var(--panel);position:sticky;top:0}td,th{padding:10px 9px;border-bottom:1px solid var(--line)}td:not(:first-child),th:not(:first-child){text-align:right}.bar{height:5px;background:#253c44;border-radius:3px;width:110px;margin-top:5px}.bar i{height:100%;display:block;background:var(--accent);border-radius:3px}.hypothesis{border-left:3px solid var(--accent);padding:1px 0 1px 14px;margin:20px 0}.hypothesis p{margin-bottom:4px}.notice{border-left:3px solid #dba76c;padding:12px 16px;background:#211f1c;margin:18px 0;color:#dcc7ad}.muted{color:var(--muted)}a{color:var(--accent)}svg{display:block;width:100%;height:220px}.legend{display:flex;gap:20px;font-size:12px;color:var(--muted)}details{border-top:1px solid var(--line);padding:18px 0}summary{cursor:pointer;font-weight:600}ul{padding-left:20px;color:var(--muted)}footer{color:var(--muted);margin:25px 0}.full{margin:18px 0}.selected{background:#20373a}#fightTable tr[data-id]{cursor:pointer}#fightTable tr[data-id]:hover{background:#20313c}@media(max-width:850px){header,main{padding:20px}.grid{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}h1{font-size:28px}}@media print{.filters,button{display:none}.table-wrap{max-height:none}body{background:white;color:black}.panel,.card{break-inside:avoid}}
+</style><style>/* AxiBridge-inspired dense dark surfaces; self-contained with system fonts. */
+:root{--bg:#080a0e;--panel:#10141c;--line:#262c39;--text:#e8eaed;--muted:#949cac;--accent:#829bff;--hot:#ee9c74}
+body{font-family:Inter,"Segoe UI",sans-serif;font-size:12px;background:var(--bg)}
+header,main{max-width:1680px;padding:20px 24px}header{border-bottom:1px solid var(--line);background:linear-gradient(120deg,#131928,#0b0e14);padding-top:24px}
+h1{font-family:Cinzel,Georgia,serif;font-size:28px;letter-spacing:2px;margin:8px 0 12px}h2{font-size:15px;font-weight:600;letter-spacing:.2px}h3{font-size:13px}
+.eyebrow{color:#9daef8}.tag{border-radius:4px;background:#192139;color:#afbcff;font-size:10px}
+.filters{padding:12px;gap:12px;border-radius:5px;background:#111621}.card,.panel{border-radius:5px;padding:16px;background:#10141c;box-shadow:0 2px 10px #0002}.card{border-top:2px solid #6479d2}.cards{gap:10px;margin:12px 0}.value{font-size:25px}.small{font-size:11px}.grid{gap:12px}.full{margin:12px 0}
+select,input,button{background:#090d14;border:1px solid #30394a;border-radius:4px;font-size:12px;padding:7px 10px}button:hover{background:#1a2540}button:focus-visible,th:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+td,th{padding:7px 10px;border-bottom:1px solid #222834}th{font-size:10px;letter-spacing:.6px;background:#171d28;z-index:2;cursor:pointer;user-select:none;border-bottom:2px solid #343e52}th:hover{color:#c1ccff;background:#202a40}th[aria-sort=ascending]:after{content:' ▲';color:var(--accent)}th[aria-sort=descending]:after{content:' ▼';color:var(--accent)}th[aria-sort=none]:after{content:' ↕';opacity:.35}
+tbody tr:nth-child(even){background:#ffffff03}tbody tr:hover{background:#7898ff12}td:first-child{font-weight:500}td{font-variant-numeric:tabular-nums}.table-wrap{max-height:440px;border:1px solid #252d3c;border-radius:4px;margin-top:10px}.bar i{background:linear-gradient(90deg,#3b82f6,#6366f1)}.bar{height:3px}.hypothesis{border-left-color:#6479d2}.notice{font-size:12px}details{padding:12px 0}.topline{flex-wrap:wrap}
+#rateNote{margin:12px 2px}.report-nav{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}.report-nav a{padding:6px 12px;border:1px solid #30394a;background:#121a29;border-radius:4px;text-decoration:none}
+@media(max-width:850px){header,main{padding:14px}h1{font-size:23px}.filters{align-items:stretch}}
+.table-toolbar{display:flex;gap:12px;align-items:center;padding:8px 10px;background:#151c28;position:sticky;left:0;flex-wrap:wrap}.table-toolbar label{display:flex;align-items:center;gap:8px}.table-toolbar select{padding:5px 8px}.table-toolbar select:disabled{opacity:.45}.explain-cell{display:block;white-space:normal;min-width:160px;max-width:280px;text-align:left;color:var(--muted);font-size:11px}.skill-explanation{white-space:normal;text-align:left;min-width:200px;max-width:420px;border:0;padding:0}.skill-explanation summary{color:#e1c492;font-size:11px}#controlOverview>details{margin-top:10px}#controlOverview h3{font-size:16px;margin:12px 0}#controlTakeaway{color:var(--text);padding:12px 14px;background:#1b263e;border-left:3px solid var(--accent)}
+body{padding-bottom:100px}.encounter-dock{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:10px;width:max-content;max-width:calc(100vw - 24px);padding:10px 14px;border:1px solid #566593;border-radius:8px;background:#111a2bf5;box-shadow:0 8px 35px #000a;backdrop-filter:blur(12px)}.dock-title{font-size:10px;font-weight:700;letter-spacing:1.2px;color:#aabaff}.dock-picker{display:flex;align-items:center;gap:8px}.dock-picker select{min-width:220px;max-width:45vw}.encounter-dock button{white-space:nowrap}.encounter-dock button:disabled{opacity:.35;cursor:default}@media(max-width:760px){body{padding-bottom:140px}.encounter-dock{bottom:8px;width:calc(100vw - 16px);flex-wrap:wrap;justify-content:center;gap:7px;padding:8px}.dock-title{display:none}.dock-picker{font-size:0}.dock-picker select{min-width:150px;max-width:48vw}#dockStatus{width:100%;text-align:center}}@media print{.encounter-dock,.table-toolbar{display:none}body{padding-bottom:0}}
+</style></head><body>
+<header><div class="topline"><span class="eyebrow">WvW / Opponent intelligence</span><span class="tag">Public report · Enemy Scout</span></div><h1>ENEMY SCOUT</h1><p>Edge of the Mists <span aria-hidden="true">/</span> <span id="date"></span> <span aria-hidden="true">/</span> <span id="scope"></span></p></header>
+<main><div class="filters"><label>Opponent team<select id="team"></select></label><label>Encounter<select id="fight"><option value="all">All encounters</option></select></label><label>Minimum seconds<input type="number" id="minimum" min="0" value="0"></label><button id="reset">Reset filters</button><button id="export">Export current selection JSON</button></div>
+<nav class="report-nav"><a href="#conditionSection">Condition pressure</a><a href="#comparison">Squad comparison</a><a href="#skillMatchup">Skill application</a><a href="#ccSkills">CC & strips</a><a href="#buildSummary">Build evidence</a></nav>
+<div class="filters"><label>Stat display<select id="displayMode"><option value="second">Per second</option><option value="total">Totals</option><option value="minute">Per minute</option><option value="playerSecond">Per player / second</option><option value="playerMinute">Per player / minute</option></select></label></div><p id="rateNote" class="small"></p>
+<section id="conditionSection" class="panel full"><h2>Control / pressure conditions</h2><p class="small">Recorded positive-duration applications between your squad and the selected enemies. Each record counts once; these are not stack counts or condition uptime. Extensions, initial states, pets and outsiders are excluded.</p><div id="conditionPressure" class="table-wrap"></div></section>
+<div id="quality"></div>
+<section class="panel full"><div class="topline"><h2 id="fightHeading">Fight analysis</h2><div><button id="previous">← Previous fight</button> <button id="next">Next fight →</button> <button id="allFights">All fights</button></div></div><p id="fightSummary"></p><div id="fightAnalysis"></div></section>
+<div id="metrics" class="cards"></div>
+<section class="panel full"><div class="topline"><h2>Same-class skill application</h2><label>Compare class<select id="matchClass"></select></label></div><p id="matchCoverage" class="small"></p><p id="reviewPrompt"></p><div id="skillMatchup" class="table-wrap"></div></section>
+<section class="panel full"><h2>Coordinated burst windows</h2><p class="small">Highest damage per observed player in a 1, 3 or 5 second window. Each side peaks independently; the time under each value identifies its window. Damage is summed across the side before finding its peak. All recorded recipients are included. Complete one-second buckets only; times are relative to log start.</p><div id="burstComparison" class="table-wrap"></div></section>
+<section class="panel full"><h2>First-down review</h2><p class="small">First observed down on each side, followed by the opposing side’s outgoing damage over the preceding three complete seconds. This is side-wide pressure, not damage received by the downed player or proof of the cause. Times use log start, which may precede engagement.</p><div id="firstDownComparison" class="table-wrap"></div></section>
+<section class="panel full"><h2>Our squad vs their squad</h2><p class="small">Both sides use the same selected encounter durations. Team filtering limits enemy actors; our full-squad totals still include all opponents. Pair-scoped CC and boon-removal rows isolate the selected enemies.</p><div id="comparison" class="table-wrap"></div><details><summary>Compare composition and damage by class</summary><div id="classComparison" class="table-wrap"></div></details></section>
+<section class="panel full" id="controlOverview"><h2>Control &amp; boon removal</h2><p id="controlTakeaway"></p><p class="small">Read the measured results first. Expand class details to see who applied them. Possible skill causes are separate because these logs do not directly link the events to a casting skill.</p>
+<div class="grid"><section><h3>1. Who controlled the other team?</h3><p>CC means crowd control: effects that interrupt actions or force movement. Our column counts effects we applied to them; their column counts effects applied to us.</p><div id="ccSkills" class="table-wrap"></div><details><summary>Which classes applied the control?</summary><div id="ccByClass" class="table-wrap"></div></details></section>
+<section><h3>2. Which boons did each side remove?</h3><p>Our column counts removals from the opponents. Their column counts removals from our squad. A removal record may remove multiple stacks, so this does not count individual boon stacks.</p><div id="removedBoons" class="table-wrap"></div><details><summary>Which classes removed the boons?</summary><div id="stripsByClass" class="table-wrap"></div></details></section></div>
+<details><summary>3. Possible skills behind the control — not confirmed causes</summary><p>These skills were observed and have control-related descriptions. The numbers show activations, not successful CC. Expand a skill’s explanation to inspect the evidence. Conditional or CC-reactive skills may appear here.</p><div id="ccCandidates" class="table-wrap"></div></details>
+<details><summary>4. Possible skills behind boon removal — not confirmed causes</summary><p>These skills or trait procs were observed and can remove or convert boons. The numbers show activations, not how many boons they stripped. Zero activations can still accompany damage-only proc evidence.</p><div id="stripSources" class="table-wrap"></div></details>
+<p class="small">Coverage: direct player-to-player events between our squad and the selected opponents. Pets, outsiders and unresolved actors are excluded. Expiry, manual removal and zero-duration removal records are excluded. Missing evidence is not proof of zero performance.</p></section>
+<section class="panel full"><div class="topline"><h2>Weapons, equipment & trait evidence</h2><div class="filters"><label>Build side<select id="buildSide"><option value="enemy">Enemy</option><option value="squad">Our squad</option></select></label><label>Class / specialization<select id="buildSpec"><option value="all">All classes</option></select></label></div></div><p class="small">Weapon skills suggest weapons; EI-reported weapons are also shown for our players. Trait and equipment procs support hypotheses, not full builds. No gear-stat or non-proccing sigil guesses are made.</p><div id="buildSummary" class="table-wrap"></div><details><summary>Inspect the supporting player and skill evidence</summary><div id="buildEvidence" class="table-wrap"></div></details></section>
+<div class="grid"><section class="panel"><div class="topline"><h2 id="compositionHeading">Our squad composition & pressure</h2><label>Composition side<select id="compositionSide"><option value="squadActors">Our squad</option><option value="actors">Selected opponents</option></select></label></div><p class="small" id="compositionNote"></p><div class="table-wrap" id="composition"></div></section><section class="panel"><div class="topline"><h2>Counter experiments</h2><span class="tag">Hypotheses to test</span></div><div id="insights"></div></section></div>
+<div class="grid"><section class="panel"><h2>What is hitting hardest?</h2><p class="small">Enemy skill damage to recorded recipients; this is not a squad-only damage attribution. Direct and condition skill IDs remain distinct.</p><div class="table-wrap" id="skills"></div></section><section class="panel"><h2>Pressure by encounter</h2><p class="small">Enemy damage ÷ full encounter duration. Click an encounter below to inspect its one-second pressure timeline.</p><div id="chart"></div><div class="legend"><span style="color:var(--accent)">■ Enemy pressure</span><span style="color:var(--hot)">● Enemy down event (single encounter)</span></div><p class="small" id="chartNote"></p><div id="squadContext"></div></section></div>
+<section class="panel full"><h2>Encounter evidence</h2><p class="small">Counts are observed player agents, not simultaneous squad sizes. Enemy downs/deaths can repeat. Times use the log’s recorded −07:00 offset.</p><div class="table-wrap" id="fightTable"></div></section>
+<details><summary>Individual enemies in the selected encounters</summary><p class="small">Anonymous IDs are local to a log. They are never treated as persistent identities across encounters.</p><div class="table-wrap" id="actors"></div></details>
+<details><summary>Coverage, definitions & reproducibility</summary><ul><li>Only the report date’s filenames with raw EVTC map ID 968 are eligible. Parsed encounter start dates and map IDs are checked again.</li><li>Full-fight phase only; subphases are not added again. The source is Elite Insights detailed WvW JSON.</li><li>Only enemyPlayer=true, non-fake targets are enemies. Friendly NPCs and non-squad friendlies are excluded from squad context.</li><li>Enemy outgoing damage, CC, received strips, downs and deaths reflect what this recording captured. Enemy outgoing damage can include recipients outside your squad. Damage to enemies from your squad is summed separately from squad members’ per-target damage.</li><li>Team IDs are raw identifiers. Edge of the Mists teams are not relabeled using WvW world colors, and a team ID is not a guild identity.</li><li>Enemy healing, cleanse performance and reliable boon uptime are unavailable. Weapon and proc-based gear/trait hypotheses are shown with supporting evidence; complete builds and armor stats remain unknown. Missing enemy boons do not mean absent boons.</li><li>Enemy appearances are not unique people across the session. Neither damage rankings nor observed composition establish causality or a guaranteed counter.</li><li>The default main team is the team with the most enemy appearances. Select All observed teams to include incidental opponents.</li><li>Counter experiments are transparent heuristics based on the selection. They are not claims about the current balance patch.</li><li>Original logs are unchanged. This HTML is self-contained and works offline. Export contains selected summary evidence, not raw combat logs.</li></ul><div id="provenance"></div><p class="small">Schema and parser: <a href="https://github.com/baaron4/GW2-Elite-Insights-Parser">GW2 Elite Insights</a>.</p></details>
+<footer>Enemy Scout · Built for matchup review, with evidence and uncertainty kept visible.</footer></main>
+<nav class="encounter-dock" aria-label="Encounter navigation"><span class="dock-title">ENCOUNTER</span><button id="dockPrevious" aria-label="Previous encounter">← Previous</button><label class="dock-picker">Viewing<select id="dockFight" aria-label="Docked encounter selector"></select></label><button id="dockNext" aria-label="Next encounter">Next →</button><button id="dockAll">All fights</button><span id="dockStatus" class="small" aria-live="polite"></span></nav>
+<script id="report-data" type="application/json">{}</script>
+<script>
+'use strict';
+const DATA=JSON.parse(document.getElementById('report-data').textContent);
+const $=id=>document.getElementById(id), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=n=>Math.round(n).toLocaleString('en-US'), compact=n=>Intl.NumberFormat('en-US',{notation:'compact',maximumFractionDigits:1}).format(n), pct=(a,b)=>b?(100*a/b).toFixed(1)+'%':'—';
+const sum=(rows,key)=>rows.reduce((n,r)=>n+(r[key]||0),0), time=f=>f.start.slice(11,19);
+const sortState=new Map();
+const tableModes=new Map([['burstComparison','total'],['firstDownComparison','total']]);
+function displayMode(){return $('displayMode').value||'second'}
+function rateValue(total,seconds,exposure,mode=displayMode()){
+ if(mode==='total')return total;
+ const denominator=mode==='second'||mode==='minute'?seconds:exposure;
+ return denominator>0?total/denominator*(mode==='playerMinute'||mode==='minute'?60:1):null;
+}
+function unit(){return {total:'total',second:'/s',minute:'/min',playerSecond:'/player/s',playerMinute:'/player/min'}[displayMode()]}
+function stat(total,seconds,exposure){
+ if(seconds===undefined)seconds=sum(current,'seconds');
+ if(exposure===undefined)exposure=current.reduce((n,f)=>n+f.seconds*f.actors.length,0);
+ const v=rateValue(total,seconds,exposure);
+ return `<span data-total="${total}" data-seconds="${seconds}" data-exposure="${exposure}" data-value="${v===null?'':v}">${v===null?'—':displayMode()==='total'?num(v):v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:3})}</span>`;
+}
+function enableTableModes(){
+ if(!document.querySelectorAll)return;
+ for(const wrap of document.querySelectorAll('.table-wrap')){
+  const table=wrap.querySelector('table');if(!table)continue;
+  const spans=[...table.querySelectorAll('[data-total]')];
+  const toolbar=document.createElement('div');toolbar.className='table-toolbar';
+  const label=document.createElement('label');label.textContent='This table: ';
+  const select=document.createElement('select');select.setAttribute('aria-label',wrap.id+' display units');
+  const windowTable=['burstComparison','firstDownComparison'].includes(wrap.id);
+  for(const [value,text]of [['total','Total'],['second','Per second'],['minute','Per minute'],...(!windowTable?[['playerSecond','Per player / second'],['playerMinute','Per player / minute']]:[])]){const option=document.createElement('option');option.value=value;option.textContent=text;select.appendChild(option)}
+  const mode=tableModes.get(wrap.id)||displayMode();select.value=mode;
+  const note=document.createElement('span');note.className='small';note.textContent=windowTable?'Rates use the displayed window length, not the full fight. Burst figures remain per observed player.':spans.length?'Rates apply to count/damage columns; percentages and timestamps stay unchanged.':'Descriptive values, timestamps or averages only — no additive statistic to convert.';
+  select.disabled=!spans.length;label.appendChild(select);toolbar.append(label,note);wrap.prepend(toolbar);
+  const apply=()=>{const mode=select.value;for(const s of spans){const value=rateValue(Number(s.dataset.total),Number(s.dataset.seconds),Number(s.dataset.exposure),mode);s.dataset.value=value===null?'':String(value);s.textContent=value===null?'—':mode==='total'?num(value):value.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:3})}
+   for(const [i,h]of [...table.tHead.rows[0].cells].entries()){if([...table.tBodies[0].rows].some(r=>r.cells[i]?.querySelector('[data-total]'))){h.dataset.baseLabel??=h.textContent.replace(/\s*(total|\/player\/min|\/player\/s|\/min|\/s)$/,'');h.textContent=h.dataset.baseLabel+' '+({total:'(total)',second:'(/s)',minute:'(/min)',playerSecond:'(/player/s)',playerMinute:'(/player/min)'}[mode])}}
+  };
+  apply();select.onchange=()=>{tableModes.set(wrap.id,select.value);apply();enableSorting()};
+ }
+}
+function classExposure(fights,spec,side='actors'){return fights.reduce((n,f)=>n+f.seconds*(f[side]||[]).filter(a=>a.spec===spec).length,0)}
+function conditionUI(fights){
+ const events=pairEvents(fights,'conditions'),seconds=sum(fights,'seconds');
+ const complete=fights.length&&fights.every(f=>f.events?.available);
+ const ownExposure=fights.reduce((n,f)=>n+f.seconds*(f.squadActors||[]).length,0),enemyExposure=fights.reduce((n,f)=>n+f.seconds*f.actors.length,0);
+ const names=[[727,'Immobilize'],[721,'Cripple'],[742,'Weakness'],[738,'Vulnerability'],[722,'Chill']];
+ $('conditionPressure').innerHTML=table(['Control / pressure condition','Our squad '+unit(),'Opponent '+unit()],names.map(([id,name])=>row([name,...['squad','enemy'].map(side=>complete?stat(sum(events.filter(r=>r.id===id&&r.source.side===side),'count'),seconds,side==='squad'?ownExposure:enemyExposure):'Unavailable')])));
+ $('rateNote').textContent=`Display: ${unit()}. Per-second = count or damage ÷ selected encounter seconds. Per-player rates use summed player-seconds. Percentages, hit averages, durations and explicitly labeled evidence counts retain their units. Click a column heading to sort; click again to reverse.`;
+}
+function sortAtom(text){
+ const s=String(text).trim().replaceAll(',','');
+ const m=s.match(/^(-?\d+(?:\.\d+)?)([kKmMbB])?(?:%|s)?$/);
+ return m?Number(m[1])*({k:1e3,m:1e6,b:1e9}[m[2]?.toLowerCase()]||1):null;
+}
+function compareCells(a,b,direction){
+ // Unknown values always sort last. Numbers sort numerically, not lexically.
+ if(a.missing||b.missing)return a.missing===b.missing?0:a.missing?1:-1;
+ if(a.number!==null&&b.number!==null)return (a.number-b.number)*direction;
+ return a.text.localeCompare(b.text,undefined,{numeric:true})*direction;
+}
+function enableSorting(){
+ if(!document.querySelectorAll)return; // Non-browser calculation tests use a minimal DOM.
+ for(const t of document.querySelectorAll('.table-wrap table')){
+  const key=t.closest('.table-wrap').id;
+  const read=cell=>{const explicit=cell.querySelector('[data-value]');const text=(explicit?explicit.textContent:cell.childNodes[0]?.textContent||cell.textContent).trim();return {text,number:explicit?explicit.dataset.value===''?null:Number(explicit.dataset.value):sortAtom(text),missing:/^(—|Unknown|Unavailable|No recorded|Insufficient)/i.test(text)}};
+  const apply=(index,direction)=>{const rows=[...t.tBodies[0].rows];rows.sort((a,b)=>compareCells(read(a.cells[index]),read(b.cells[index]),direction));for(const r of rows)t.tBodies[0].appendChild(r);for(const [i,th]of [...t.tHead.rows[0].cells].entries()){th.setAttribute('aria-sort',i===index?(direction===1?'ascending':'descending'):'none');th.title=i===index?(direction===1?'Ascending — click to reverse':'Descending — click to reverse'):'Click to sort'}};
+  [...t.tHead.rows[0].cells].forEach((th,index)=>{th.tabIndex=0;th.setAttribute('aria-sort','none');th.title='Click to sort';const activate=()=>{const old=sortState.get(key);const direction=old?.index===index?-old.direction:-1;sortState.set(key,{index,direction});apply(index,direction)};th.onclick=activate;th.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate()}}});
+  const saved=sortState.get(key);if(saved&&saved.index<t.tHead.rows[0].cells.length)apply(saved.index,saved.direction);
+ }
+}
+
+function table(headers,rows){return '<table><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table>'}
+function row(cells){return '<tr>'+cells.map(c=>'<td>'+c+'</td>').join('')+'</tr>'}
+const counts={};DATA.fights.forEach(f=>f.actors.forEach(a=>counts[a.team]=(counts[a.team]||0)+1));
+const mainTeam=Object.keys(counts).sort((a,b)=>counts[b]-counts[a])[0]||'all';
+$('team').innerHTML='<option value="all">All observed teams</option>'+Object.keys(counts).sort((a,b)=>counts[b]-counts[a]).map(t=>`<option value="${esc(t)}">Team ${esc(t)}${t===mainTeam?' · main opponent':''}</option>`).join('');$('team').value=mainTeam;
+$('fight').innerHTML+=[...DATA.fights].map(f=>`<option value="${esc(f.id)}">${time(f)} · ${f.seconds.toFixed(0)}s · ${f.enemyCount} enemies</option>`).join('');
+$('date').textContent=DATA.date;
+$('scope').textContent=`${DATA.fights.length} parsed encounters · ${DATA.selection.logs.filter(l=>!l.selected&&!l.error).length} out-of-map logs excluded`;
+let current=[];
+function selection(){return DATA.fights.filter(f=>($('fight').value==='all'||f.id===$('fight').value)&&f.seconds>=Math.max(0,Number($('minimum').value)||0)).map(f=>({...f,actors:f.actors.filter(a=>$('team').value==='all'||a.team===$('team').value)})).filter(f=>f.actors.length)}
+function drawChart(fights){
+ const single=fights.length===1; let values=[],downs=[];
+ if(single){for(const a of fights[0].actors){a.timeline.forEach((v,i)=>values[i]=(values[i]||0)+v);downs.push(...a.downTimes)} }else values=fights.map(f=>sum(f.actors,'damage')/f.seconds);
+ if(!values.length){$('chart').innerHTML='<p>No timeline available for this selection.</p>';$('chartNote').textContent='';return}
+ const max=Math.max(...values,1),W=600,H=190,left=52,span=536,step=span/values.length;
+ let bars=values.map((v,i)=>`<rect x="${left+i*step}" y="${H-v/max*150}" width="${Math.max(.5,step-1)}" height="${v/max*150}" fill="#76debf"><title>${single?i+'–'+(i+1)+'s':time(fights[i])}: ${num(v)} ${single?'damage':'DPS'}</title></rect>`).join('');
+ if(single)bars+=downs.map(t=>`<circle cx="${left+t/fights[0].seconds*span}" cy="201" r="3" fill="#ffa184"><title>Enemy down at ${t.toFixed(1)}s</title></circle>`).join('');
+ $('chart').innerHTML=`<svg viewBox="0 0 ${W} 220" role="img" aria-label="${single?'Enemy damage per one-second bucket and down events':'Enemy DPS by encounter'}"><text x="0" y="42" fill="#96aabb" font-size="12">${compact(max)}</text><text x="30" y="190" fill="#96aabb" font-size="12">0</text><path d="M52 35V190H590" stroke="#39505f" fill="none"/>${bars}<text x="52" y="218" fill="#96aabb" font-size="11">${single?'0s':time(fights[0])}</text><text x="588" y="218" text-anchor="end" fill="#96aabb" font-size="11">${single?fights[0].seconds.toFixed(1)+'s':time(fights.at(-1))}</text></svg>`;
+ $('chartNote').textContent=single?'Each bar is a one-second damage bucket; the final bucket may be shorter. Hover for values.':'Each bar represents one encounter, in chronological order. Hover for values.';
+}
+function pairEvents(fights,key){return fights.flatMap(f=>(f.events?.[key]||[]).filter(r=>{const e=r.source.side==='enemy'?r.source:r.target;return f.actors.some(a=>a.instanceID===e.instanceID)}))}
+function aggregateEvents(events){const m={};for(const r of events){const k=r.source.side+':'+r.source.spec+':'+r.id;const a=m[k]??={name:r.name,id:r.id,side:r.source.side,spec:r.source.spec,causeKnown:r.causeKnown,count:0,durationMS:0};a.count+=r.count;a.durationMS+=r.durationMS}return Object.values(m).sort((a,b)=>b.count-a.count)}
+function evidenceUI(fights){
+ const ours=fights.flatMap(f=>f.squadActors||[]),theirs=fights.flatMap(f=>f.actors),secs=sum(fights,'seconds');
+ const cc=pairEvents(fights,'cc'),removals=pairEvents(fights,'removals');
+ const ccFor=side=>sum(cc.filter(r=>r.source.side===side),'count'),stripFor=side=>sum(removals.filter(r=>r.source.side===side),'count');
+ const complete=fights.length&&fights.every(f=>f.events?.available);
+ const rate=(actors)=>{const exposure=fights.reduce((n,f)=>n+f.seconds*(actors==='squad'?(f.squadActors||[]).length:f.actors.length),0);return exposure?num(sum(actors==='squad'?ours:theirs,'damage')/exposure):'—'};
+ const amount=(n,side)=>stat(n,secs,fights.reduce((v,f)=>v+f.seconds*(side==='squad'?(f.squadActors||[]).length:f.actors.length),0));
+ const comparison=[['Observed player appearances',num(ours.length),num(theirs.length)],['Outgoing damage · all recorded recipients',amount(sum(ours,'damage'),'squad'),amount(sum(theirs,'damage'),'enemy')],['Power share of outgoing damage',pct(sum(ours,'power'),sum(ours,'damage')),pct(sum(theirs,'power'),sum(theirs,'damage'))],['Outgoing damage / player-second',rate('squad'),rate('enemy')],['Damage received · all recorded sources',amount(sum(ours,'taken'),'squad'),amount(sum(theirs,'taken'),'enemy')],['Down events suffered',amount(sum(ours,'downs'),'squad'),amount(sum(theirs,'downs'),'enemy')],['Death events suffered',amount(sum(ours,'deaths'),'squad'),amount(sum(theirs,'deaths'),'enemy')],['CC applied · paired player events',complete?amount(ccFor('squad'),'squad'):'Unavailable / partial',complete?amount(ccFor('enemy'),'enemy'):'Unavailable / partial'],['Boon removals caused · paired records',complete?amount(stripFor('squad'),'squad'):'Unavailable / partial',complete?amount(stripFor('enemy'),'enemy'):'Unavailable / partial'],['Boons stripped from this side · EI totals',amount(sum(ours,'stripsReceived'),'squad'),amount(sum(theirs,'stripsReceived'),'enemy')]];
+ $('comparison').innerHTML=table(['Metric','Our squad '+unit(),'Selected enemies '+unit()],comparison.map(row));
+ const classes=[...new Set([...ours,...theirs].map(a=>a.spec))].sort();
+ $('classComparison').innerHTML=table(['Class','Our appearances','Their appearances','Our damage '+unit(),'Their damage '+unit(),'Our CC¹ '+unit(),'Their CC¹ '+unit()],classes.map(s=>{const a=ours.filter(a=>a.spec===s),b=theirs.filter(a=>a.spec===s);return row([esc(s),num(a.length),num(b.length),stat(sum(a,'damage'),secs,classExposure(fights,s,'squadActors')),stat(sum(b,'damage'),secs,classExposure(fights,s)),stat(sum(a,'cc'),secs,classExposure(fights,s,'squadActors')),stat(sum(b,'cc'),secs,classExposure(fights,s))])}))+'<p class="small">¹ EI outgoing totals include all recorded recipients, including pets/NPCs; the direct CC table below is restricted to paired players.</p>';
+ const single=fights.length===1;
+ $('fightHeading').textContent=single?'Fight analysis · '+time(fights[0]):'Fight analysis · '+fights.length+' encounters';
+ $('fightSummary').textContent=single?`${fights[0].seconds.toFixed(1)} seconds · ${ours.length} squad members · ${theirs.length} observed enemies. All tables and hypotheses below now describe this fight.`:'Select an Encounter above, click an encounter row, or use Next fight to inspect one fight. All sections follow that selection.';
+ $('fightAnalysis').innerHTML=fights.length?`<p><strong>${num(sum(ours,'downs'))} our downs vs ${num(sum(theirs,'downs'))} enemy downs.</strong> ${complete?`Your squad landed ${num(ccFor('squad'))} paired CC applications; the selected enemies landed ${num(ccFor('enemy'))}.`: 'Raw CC evidence is incomplete.'}</p><p class="small">Compare the skill sources below before changing the composition. Higher damage, strip counts or CC volume alone do not establish why a fight was won or lost.</p>`:'';
+ controlAnalysis(fights);
+ const buildSide=$('buildSide').value||'enemy';const pool=fights.flatMap(f=>(buildSide==='squad'?(f.squadActors||[]):f.actors).map(a=>({...a,fight:time(f),fightSeconds:f.seconds})));
+ const specs=[...new Set(pool.map(a=>a.spec))].sort();const selected=$('buildSpec').value||'all';
+ $('buildSpec').innerHTML='<option value="all">All classes</option>'+specs.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');$('buildSpec').value=specs.includes(selected)?selected:'all';
+ const builds=pool.filter(a=>$('buildSpec').value==='all'||a.spec===$('buildSpec').value); const groups={};const detail=[];
+ for(const a of builds){const g=groups[a.spec]??={spec:a.spec,count:0,weapons:new Set(),gear:new Set(),traits:new Set()};g.count++;const b=a.build||{};
+  for(const w of b.reportedWeapons||[])g.weapons.add(w+' (EI reported)');
+  for(const w of b.weapons||[]){g.weapons.add(w.weapon+' (inferred)');detail.push(row([a.fight,esc(a.name),'Weapon',esc(w.weapon),esc(w.skill)+` #${w.skillID}`,stat(w.casts,a.fightSeconds,a.fightSeconds),stat(w.damage,a.fightSeconds,a.fightSeconds),esc(w.confidence)]))}
+  for(const p of b.procs||[]){const label=p.kind==='Trait'?(p.candidates.length?p.candidates.map(t=>t.name+' / '+t.line).join(' or '):p.skill+' (trait unresolved)'):p.skill;(p.kind==='Trait'?g.traits:g.gear).add(label);detail.push(row([a.fight,esc(a.name),p.kind,esc(label),esc(p.skill)+` #${p.skillID}`,stat(p.casts,a.fightSeconds,a.fightSeconds),stat(p.damage,a.fightSeconds,a.fightSeconds),esc(p.confidence)]))}
+  for(const c of b.consumables||[])detail.push(row([a.fight,esc(a.name),'Consumable',esc(c.name),'Buff #'+c.id,'—','—','Observed buff; does not establish armor stats']));
+ }
+ const list=s=>[...s].map(esc).join('<br>')||'<span class="muted">Unknown / no evidence</span>';
+ $('buildSummary').innerHTML=table(['Class','Appearances','Weapons','Equipment proc evidence','Trait hypotheses'],Object.values(groups).map(g=>row([esc(g.spec),num(g.count),list(g.weapons),list(g.gear),list(g.traits)])));
+ $('buildEvidence').innerHTML=table(['Fight','Player','Type','Inference','Supporting skill','Activations¹','Damage','Evidence strength'],detail)+'<p class="small">¹ Activations can be reconstructed by Elite Insights rather than directly logged casts, especially trait and gear procs. A missing proc does not prove a trait or item was absent. Metadata may not represent the exact balance patch.</p>';
+}
+function controlAnalysis(fights){
+ const cc=pairEvents(fights,'cc'),strips=pairEvents(fights,'removals'),seconds=sum(fights,'seconds');
+ const complete=fights.length&&fights.every(f=>f.events?.available);
+ const exposure=side=>fights.reduce((n,f)=>n+f.seconds*(side==='squad'?(f.squadActors||[]).length:f.actors.length),0);
+ const value=(events,side)=>complete?stat(sum(events.filter(r=>r.source.side===side),'count'),seconds,exposure(side)):'Unavailable';
+ const count=(events,side)=>sum(events.filter(r=>r.source.side===side),'count');
+ $('controlTakeaway').textContent=complete?`Across ${fights.length} selected fights, our squad applied ${num(count(cc,'squad'))} control effects to the opponents; they applied ${num(count(cc,'enemy'))} to us. Our squad caused ${num(count(strips,'squad'))} boon-removal records; they caused ${num(count(strips,'enemy'))}. These are recorded events, not skill casts or distinct players.`:'No complete control evidence is available for this selection.';
+ const descriptions={'Lockout':'A generic action-locking effect; exact CC skill is not recorded.','Knockback / pull':'Forced movement. The log does not distinguish a push from a pull.','CC buff':'A control effect recorded under a generic buff ID.','Launch':'A launch effect.','Knockdown':'A knockdown effect.','Fear':'A fear effect.','Stagger':'A stagger effect.'};
+ const overview=(events,kind)=>{const names=[...new Set(events.map(r=>r.name))].sort((a,b)=>sum(events.filter(r=>r.name===b),'count')-sum(events.filter(r=>r.name===a),'count'));return table([kind,'Our squad applied '+unit(),'Opponent applied '+unit(),'How to read this'],names.map(name=>row([esc(name),value(events.filter(r=>r.name===name),'squad'),value(events.filter(r=>r.name===name),'enemy'),`<span class="explain-cell">${esc(kind==='Control effect'?(descriptions[name]||'Recorded control effect.'):name+' was removed from the other side. A record can remove multiple stacks.')}</span>`])))};
+ $('ccSkills').innerHTML=overview(cc,'Control effect');
+ $('removedBoons').innerHTML=overview(strips,'Boon removed');
+ const breakdown=events=>{const keys=[...new Set(events.map(r=>r.source.spec+'|'+r.name))];return table(['Applying class','Effect / boon','Our squad '+unit(),'Opponent '+unit()],keys.map(k=>{const [spec,name]=k.split('|');const rows=events.filter(r=>r.source.spec===spec&&r.name===name);return row([esc(spec),esc(name),...['squad','enemy'].map(side=>complete?stat(count(rows,side),seconds,classExposure(fights,spec,side==='squad'?'squadActors':'actors')):'Unavailable')])}))};
+ $('ccByClass').innerHTML=breakdown(cc);$('stripsByClass').innerHTML=breakdown(strips);
+ function candidates(key){const groups={};for(const f of fights)for(const [side,actors]of [['squad',f.squadActors||[]],['enemy',f.actors]])for(const a of actors)for(const c of a.build?.[key]||[]){const id=a.spec+'|'+c.skillID;const g=groups[id]??={spec:a.spec,name:c.skill,id:c.skillID,description:c.description||'',squad:0,enemy:0};g[side]+=c.casts||0}
+ return table(['Class / observed skill','Our activations '+unit(),'Their activations '+unit(),'Why it is listed'],Object.values(groups).sort((a,b)=>(b.squad+b.enemy)-(a.squad+a.enemy)).map(g=>row([esc(g.spec)+'<br>'+esc(g.name),stat(g.squad,seconds,classExposure(fights,g.spec,'squadActors')),stat(g.enemy,seconds,classExposure(fights,g.spec)),`<details class="skill-explanation"><summary>Possible cause — unconfirmed</summary><p>${esc(g.description||'Observed proc with a relevant capability.')}</p><p>Skill ID ${g.id}. Activation counts may be reconstructed by Elite Insights. These are not successful ${key==='ccCandidates'?'CC':'strip'} counts.</p></details>`]))) }
+ $('ccCandidates').innerHTML=candidates('ccCandidates');$('stripSources').innerHTML=candidates('stripCandidates');
+}
+
+// Metrics use complete one-second buckets and full-fight player exposure.
+function sideSeries(actors, seconds) {
+ const n=Math.floor(seconds);
+ if(!actors.length||actors.some(a=>!Array.isArray(a.timeline)||a.timeline.length<n))return null;
+ return Array.from({length:n},(_,i)=>actors.reduce((s,a)=>s+a.timeline[i],0));
+}
+function peakWindow(series,width) {
+ if(!series||series.length<width)return null;
+ let value=series.slice(0,width).reduce((a,b)=>a+b,0),best={damage:value,start:0};
+ for(let i=width;i<series.length;i++){value+=series[i]-series[i-width];if(value>best.damage)best={damage:value,start:i-width+1}}
+ return best;
+}
+function firstDown(actors){const times=actors.flatMap(a=>a.downTimes||[]);return times.length?Math.min(...times):null}
+function pressureBefore(series,time){if(!series||time===null||Math.floor(time)<3)return null;const end=Math.floor(time);if(end>series.length)return null;return {start:end-3,end,damage:series.slice(end-3,end).reduce((a,b)=>a+b,0)}}
+function matchupSkills(fights,spec){
+ const matched=fights.filter(f=>f.actors.some(a=>a.spec===spec)&&(f.squadActors||[]).some(a=>a.spec===spec));
+ const sides=['squadActors','actors'].map(key=>{let exposure=0;const skills={};for(const f of matched){const actors=f[key].filter(a=>a.spec===spec);exposure+=actors.length*f.seconds;for(const a of actors)for(const s of a.skills||[]){const r=skills[s.id]??={id:s.id,name:s.name,damage:0,hits:0};r.damage+=s.damage;r.hits+=s.hits}}return {exposure,skills}});
+ const ids=[...new Set(sides.flatMap(s=>Object.keys(s.skills)))];
+ return {matched:matched.length,seconds:sum(matched,'seconds'),sides,rows:ids.map(id=>({id,name:sides[0].skills[id]?.name||sides[1].skills[id].name,ours:sides[0].skills[id]||{damage:0,hits:0},theirs:sides[1].skills[id]||{damage:0,hits:0}})).sort((a,b)=>(b.ours.damage+b.theirs.damage)-(a.ours.damage+a.theirs.damage))};
+}
+function matchupUI(fights){
+ const classes=[...new Set(fights.flatMap(f=>f.actors.map(a=>a.spec)))].filter(s=>fights.some(f=>f.actors.some(a=>a.spec===s)&&(f.squadActors||[]).some(a=>a.spec===s))).sort();
+ const prior=$('matchClass').value;
+ $('matchClass').innerHTML=classes.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+ $('matchClass').value=classes.includes(prior)?prior:(classes.includes('Untamed')?'Untamed':classes[0]||'');
+ const result=matchupSkills(fights,$('matchClass').value);
+ const perMinute=(r,side)=>side.exposure?(r.hits*60/side.exposure).toFixed(2):'—';
+ const hit=r=>r.hits?num(r.damage/r.hits):'—';
+ $('skillMatchup').innerHTML=table(['Skill','Our hits '+unit(),'Their hits '+unit(),'Our damage / hit','Their damage / hit'],result.rows.map(r=>row([esc(r.name)+`<div class="small">${esc(r.id)}</div>`,stat(r.ours.hits,result.seconds,result.sides[0].exposure),stat(r.theirs.hits,result.seconds,result.sides[1].exposure),hit(r.ours),hit(r.theirs)])));
+ $('matchCoverage').textContent=`${result.matched} encounters with this class on both sides. Our exposure: ${(result.sides[0].exposure/60).toFixed(1)} player-minutes; theirs: ${(result.sides[1].exposure/60).toFixed(1)}. Hits include recorded recipients and pets/minions; a hit is not a cast.`;
+ const burstRows=[],downRows=[];
+ for(const f of fights){const ours=f.squadActors||[],theirs=f.actors;const a=sideSeries(ours,f.seconds),b=sideSeries(theirs,f.seconds);
+  const format=(series,w,count)=>{const p=peakWindow(series,w);return p?`${stat(p.damage/count,w,w)}<div class="small">${p.start}–${p.start+w}s</div>`:'Unavailable'};
+  burstRows.push(row([time(f),format(a,1,ours.length),format(b,1,theirs.length),format(a,3,ours.length),format(b,3,theirs.length),format(a,5,ours.length),format(b,5,theirs.length)]));
+  const od=firstDown(ours),ed=firstDown(theirs),ot=pressureBefore(b,od),et=pressureBefore(a,ed);
+  const before=p=>p?stat(p.damage,p.end-p.start,p.end-p.start)+`<div class="small">${p.start}–${p.end}s</div>`:'Insufficient preceding data';
+  downRows.push(row([time(f),od===null?'No recorded down':od.toFixed(2)+'s',ed===null?'No recorded down':ed.toFixed(2)+'s',before(ot),before(et)]));
+ }
+ $('burstComparison').innerHTML=table(['Fight','Our 1s','Their 1s','Our 3s','Their 3s','Our 5s','Their 5s'],burstRows);
+ $('firstDownComparison').innerHTML=table(['Fight','Our first down','Their first down','Enemy outgoing before our down','Our outgoing before their down'],downRows);
+ const top=result.rows.find(r=>r.ours.hits>=10&&r.theirs.hits>=10);
+ if(top&&result.sides.every(s=>s.exposure>0)){
+  const oursRate=top.ours.hits/result.sides[0].exposure,theirsRate=top.theirs.hits/result.sides[1].exposure;
+  $('reviewPrompt').textContent=`Review ${$('matchClass').value} → ${top.name}: your side recorded ${perMinute(top.ours,result.sides[0])} hits/player-minute versus ${perMinute(top.theirs,result.sides[1])} for the opponent (${(theirsRate/oursRate).toFixed(2)}× your rate). Average damage per connected hit was ${hit(top.ours)} versus ${hit(top.theirs)}. Check exposure, target count, role and skill timing before attributing this to execution or gear.`;
+ }else $('reviewPrompt').textContent='Select a shared class with sufficient skill evidence to compare application rate and damage per hit. Small samples are not a reliable basis for a counter.';
+}
+
+function render(){
+ const fights=current=selection(),actors=fights.flatMap(f=>f.actors),seconds=sum(fights,'seconds'),damage=sum(actors,'damage'),condition=sum(actors,'condition');
+ evidenceUI(fights);
+ matchupUI(fights);
+ conditionUI(fights);
+ const specMap={},skillMap={};for(const a of actors){const s=specMap[a.spec]??={name:a.spec,count:0,damage:0,downs:0,deaths:0,cc:0};s.count++;for(const k of ['damage','downs','deaths','cc'])s[k]+=a[k];for(const skill of a.skills){const r=skillMap[skill.id]??={...skill,damage:0,hits:0,max:0};r.damage+=skill.damage;r.hits+=skill.hits;r.max=Math.max(r.max,skill.max)}}
+ const specs=Object.values(specMap).sort((a,b)=>b.damage-a.damage),skills=Object.values(skillMap).sort((a,b)=>b.damage-a.damage);
+ const cards=[['Encounters',num(fights.length),`${(seconds/60).toFixed(1)} minutes of recorded combat`],['Observed enemy damage',compact(damage),`${pct(sum(actors,'power'),damage)} power · ${pct(condition,damage)} condition`],['Enemy downs / deaths',`${num(sum(actors,'downs'))} / ${num(sum(actors,'deaths'))}`,'Repeated events, not unique players'],['Enemy pressure',seconds?compact(damage/seconds)+' /s':'—','Total damage ÷ selected encounter seconds']];
+ $('metrics').innerHTML=cards.map(c=>`<div class="card"><div class="small">${c[0]}</div><div class="value">${c[1]}</div><div class="small">${c[2]}</div></div>`).join('');
+ const warnings=fights.flatMap(f=>f.warnings.map(w=>`${time(f)}: ${w}`));
+ const scanErrors=DATA.selection.logs.filter(l=>l.error);
+ $('quality').innerHTML=(!fights.length?'<div class="notice">No encounters match these filters.</div>':'')+(warnings.length||DATA.missing.length||DATA.rejected.length||scanErrors.length?`<div class="notice">Coverage checks: ${DATA.missing.length} missing parsed logs, ${DATA.rejected.length} rejected files, ${warnings.length} warnings, ${scanErrors.length} unreadable raw logs.<br>${warnings.map(esc).join('<br>')}${scanErrors.map(l=>esc(l.file+': '+l.error)).join('<br>')}</div>`:'');
+ const compositionSide=$('compositionSide').value||'squadActors';
+ const compositionActors=fights.flatMap(f=>f[compositionSide]||[]),compositionDamage=sum(compositionActors,'damage'),compositionGroups={};
+ for(const a of compositionActors){const s=compositionGroups[a.spec]??={name:a.spec,count:0,damage:0,downs:0,cc:0};s.count++;for(const k of ['damage','downs','cc'])s[k]+=a[k]||0}
+ $('compositionHeading').textContent=compositionSide==='squadActors'?'Our squad composition & pressure':'Opponent composition & pressure';
+ $('compositionNote').textContent='Observed outgoing damage, including pets and minions. Appearances count once per player per encounter. Damage share uses this side’s total.'+(compositionSide==='squadActors'?' Our squad includes all recorded recipients in the selected fights; the opponent-team filter does not isolate our outgoing damage.':'');
+ $('composition').innerHTML=table(['Specialization','Appearances','Damage share','Downs '+unit(),'CC '+unit()],Object.values(compositionGroups).sort((a,b)=>b.damage-a.damage).map(s=>row([esc(s.name),num(s.count),`${pct(s.damage,compositionDamage)}<div class="bar"><i style="width:${compositionDamage?s.damage/compositionDamage*100:0}%"></i></div>`,stat(s.downs,seconds,classExposure(fights,s.name,compositionSide)),stat(s.cc,seconds,classExposure(fights,s.name,compositionSide))])));
+ $('skills').innerHTML=table(['Skill','Damage '+unit(),'Share','Max hit'],skills.slice(0,30).map(s=>row([esc(s.name)+`<div class="small">${esc(s.id)} · ${s.condition?'condition':'direct'} · ${num(s.hits)} connected hits</div>`,stat(s.damage),pct(s.damage,damage),num(s.max)])));
+ let tips=[];
+ if(damage){tips.push([condition/damage<.2?'Test a power-pressure response':'Test condition-pressure coverage',`${pct(sum(actors,'power'),damage)} of observed enemy damage is power and ${pct(condition,damage)} is condition.`,condition/damage<.2?'Try tighter defensive timing and shorter exposure to the enemy burst. Compare squad damage taken per player-second and downs in similar-size encounters.':'Review cleanse timing against the highest-damage conditions. Compare condition damage taken per squad player-second and downs in similar-size encounters.']);
+ if(specs[0])tips.push([`Review ${specs[0].name} pressure first`,`${specs[0].name} contributes ${pct(specs[0].damage,damage)} of observed enemy damage across ${specs[0].count} appearances.`,`Use the top-skill table and encounter timeline to find their damaging windows. Test denying those windows; a high damage share alone does not prove this is the best focus target.`]);
+ tips.push(['Audit control and recovery timing',`${num(sum(actors,'cc'))} enemy CC applications and ${num(sum(actors,'downs'))} enemy downs are recorded.`, 'Review squad stability and stun-break timing alongside the burst windows. Treat repeated enemy downs without deaths as a prompt to review follow-up pressure, not proof of failed cleave.']);}
+ $('insights').innerHTML=tips.map(t=>`<div class="hypothesis"><h3>${esc(t[0])}</h3><p>${esc(t[1])}</p><div class="small">${esc(t[2])}</div></div>`).join('')+'<p class="small">Enemy healing and boon coverage are insufficient for ranking enemy supports or recommending boon-specific counters.</p>';
+ drawChart(fights);
+ const playerSeconds=fights.reduce((n,f)=>n+f.seconds*f.squadCount,0),squadTaken=fights.reduce((n,f)=>n+f.squad.damageTaken,0);
+ $('squadContext').innerHTML=`<h3>Squad context · all hostile sources</h3><p>${num(fights.reduce((n,f)=>n+f.squad.downCount,0))} downs · ${num(fights.reduce((n,f)=>n+f.squad.deadCount,0))} deaths · ${playerSeconds?num(squadTaken/playerSeconds):'—'} damage taken / player-second</p><p class="small">This context follows the selected encounters; the opponent-team filter cannot isolate incoming squad damage. Squad damage to selected enemies: ${num(sum(actors,'squadDamage'))}.</p>`;
+ $('fightTable').innerHTML=table(['Start','Seconds','Squad','Enemies','Enemy damage '+unit(),'Power %','Enemy downs '+unit(),'Deaths '+unit(),'CC '+unit()],fights.map(f=>`<tr data-id="${esc(f.id)}" tabindex="0" aria-label="Inspect encounter ${time(f)}">`+[time(f),f.seconds.toFixed(1),num(f.squadCount),num(f.actors.length),stat(sum(f.actors,'damage'),f.seconds,f.seconds*f.actors.length),pct(sum(f.actors,'power'),sum(f.actors,'damage')),stat(sum(f.actors,'downs'),f.seconds,f.seconds*f.actors.length),stat(sum(f.actors,'deaths'),f.seconds,f.seconds*f.actors.length),stat(sum(f.actors,'cc'),f.seconds,f.seconds*f.actors.length)].map(v=>`<td>${v}</td>`).join('')+'</tr>'));
+ for(const tr of $('fightTable').querySelectorAll('[data-id]')){const open=()=>{$('fight').value=tr.dataset.id;render()};tr.onclick=open;tr.onkeydown=e=>{if(e.key==='Enter')open()};}
+ $('actors').innerHTML=table(['Encounter','Enemy (log-local)','Team','Damage '+unit(),'DPS¹','Downs '+unit(),'Deaths '+unit(),'CC '+unit(),'Strips received '+unit()],fights.flatMap(f=>[...f.actors].sort((a,b)=>b.damage-a.damage).map(a=>row([time(f),esc(a.name),esc(a.team),stat(a.damage,f.seconds,f.seconds),num(a.damage/f.seconds),stat(a.downs,f.seconds,f.seconds),stat(a.deaths,f.seconds,f.seconds),stat(a.cc,f.seconds,f.seconds),stat(a.stripsReceived,f.seconds,f.seconds)]))));
+ $('provenance').innerHTML='<p class="small">¹ DPS uses full encounter duration, not alive/active time. Parser versions: '+esc([...new Set(fights.map(f=>f.parserVersion))].join(', '))+'</p>'+table(['Source report','Warnings'],fights.map(f=>row([esc(f.source),esc(f.warnings.join('; ')||'None')])));
+ enableTableModes();
+ enableSorting();
+ syncEncounterDock();
+}
+for(const id of ['team','fight','minimum','buildSide','buildSpec','matchClass','displayMode','compositionSide'])$(id).addEventListener('change',render);
+function stepFight(delta){const eligible=DATA.fights.filter(f=>f.seconds>=Math.max(0,Number($('minimum').value)||0)&&f.actors.some(a=>$('team').value==='all'||a.team===$('team').value));if(!eligible.length)return;const i=eligible.findIndex(f=>f.id===$('fight').value);$('fight').value=eligible[Math.max(0,Math.min(eligible.length-1,i<0?(delta>0?0:eligible.length-1):i+delta))].id;render()}
+function syncEncounterDock(){const eligible=DATA.fights.filter(f=>f.seconds>=Math.max(0,Number($('minimum').value)||0)&&f.actors.some(a=>$('team').value==='all'||a.team===$('team').value));const selected=$('fight').value;const index=eligible.findIndex(f=>f.id===selected);$('dockFight').innerHTML='<option value="all">All matching fights</option>'+eligible.map((f,i)=>`<option value="${esc(f.id)}">${i+1}. ${time(f)} · ${f.seconds.toFixed(0)}s</option>`).join('')+(selected!=='all'&&index<0?`<option value="${esc(selected)}">Selected fight excluded by filters</option>`:'');$('dockFight').value=selected;$('dockPrevious').disabled=!eligible.length||index===0;$('dockNext').disabled=!eligible.length||index===eligible.length-1;$('dockStatus').textContent=index>=0?`Fight ${index+1} of ${eligible.length}`:selected==='all'?`${eligible.length} matching fights`:'No match';}
+$('dockPrevious').onclick=()=>stepFight(-1);$('dockNext').onclick=()=>stepFight(1);$('dockAll').onclick=()=>{$('fight').value='all';render()};$('dockFight').addEventListener('change',()=>{$('fight').value=$('dockFight').value;render()});
+$('previous').onclick=()=>stepFight(-1);$('next').onclick=()=>stepFight(1);$('allFights').onclick=()=>{$('fight').value='all';render()};
+$('reset').onclick=()=>{$('team').value=mainTeam;$('fight').value='all';$('minimum').value=0;render()};
+$('export').onclick=()=>{const b=new Blob([JSON.stringify({date:DATA.date,map:DATA.map,team:$('team').value,fights:current},null,2)],{type:'application/json'});const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='enemy-scout-selection.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)};
+render();
+</script></body></html>
